@@ -4,48 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Riwayat Utang Handika</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f8ff;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            text-align: center;
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js"></script>
+    <script>
+        
+const firebaseConfig = {
+    apiKey: "AIzaSyD4uHlXjcz2q4jFdtd9vHNnivSpKB6MvgM", // Web API Key
+    authDomain: "utang-c0c6c.firebaseapp.com", // authDomain yang otomatis dibentuk oleh Firebase
+    projectId: "utang-c0c6c", // Project ID Anda
+    storageBucket: "utang-c0c6c.appspot.com", // storageBucket yang otomatis dibentuk oleh Firebase
+    messagingSenderId: "201186515343", // Messaging Sender ID
+    appId: "1:201186515343:web:d74d6c8d5d3b88a6b65d0f" // Anda bisa mendapatkan appId dari Firebase Console
+};
+
+
+        // 🔥 Inisialisasi Firebase
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        function simpanUtang() {
+            let nama = document.getElementById('nama').value;
+            let jumlah = document.getElementById('jumlah').value;
+            let deskripsi = document.getElementById('deskripsi').value;
+
+            if (nama === "" || jumlah === "" || deskripsi === "") {
+                alert("Harap isi semua data!");
+                return;
+            }
+
+            // Simpan ke Firestore
+            db.collection("utang").add({
+                nama: nama,
+                jumlah: jumlah,
+                deskripsi: deskripsi,
+                timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                alert("Utang berhasil ditambahkan!");
+                document.getElementById('nama').value = "";
+                document.getElementById('jumlah').value = "";
+                document.getElementById('deskripsi').value = "";
+            }).catch((error) => {
+                console.error("Error menambahkan utang: ", error);
+            });
         }
-        header, footer {
-            background-color: #007bff;
-            color: white;
-            padding: 15px;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-        .container {
-            max-width: 500px;
-            margin: 20px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        input, button {
-            width: 90%;
-            padding: 10px;
-            margin: 10px 0;
-            border-radius: 5px;
-            border: 1px solid #ccc;
-            font-size: 1em;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    </script>
 </head>
 <body>
     <header>Riwayat Utang Handika</header>
@@ -58,23 +60,5 @@
         <a href="riwayat.html">Lihat Riwayat Utang</a>
     </div>
     <footer>&copy; 2025 Riwayat Utang Handika</footer>
-    <script>
-        function simpanUtang() {
-            let nama = document.getElementById('nama').value;
-            let jumlah = document.getElementById('jumlah').value;
-            let deskripsi = document.getElementById('deskripsi').value;
-            if (nama === "" || jumlah === "" || deskripsi === "") {
-                alert("Harap isi semua data!");
-                return;
-            }
-            let utangList = JSON.parse(localStorage.getItem('utangList')) || [];
-            utangList.push({ nama, jumlah, deskripsi });
-            localStorage.setItem('utangList', JSON.stringify(utangList));
-            alert("Utang berhasil ditambahkan!");
-            document.getElementById('nama').value = "";
-            document.getElementById('jumlah').value = "";
-            document.getElementById('deskripsi').value = "";
-        }
-    </script>
 </body>
 </html>
