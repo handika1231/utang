@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Riwayat Utang Handika</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header, footer {
+            background-color: #007bff;
+            color: white;
+            padding: 15px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .container {
+            max-width: 500px;
+            margin: 20px auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .utang-item {
+            background: #e6f2ff;
+            padding: 10px;
+            margin: 5px 0;
+            border-radius: 5px;
+            text-align: left;
+        }
+    </style>
+</head>
+<body>
+    <header>Riwayat Utang Handika</header>
+    <div class="container">
+        <h2>Daftar Utang</h2>
+        <div id="daftarUtang"></div>
+        <a href="index.html">Kembali</a>
+    </div>
+    <footer>&copy; 2025 Riwayat Utang Handika</footer>
+    <script>
+        function tampilkanUtang() {
+            let daftarUtang = document.getElementById('daftarUtang');
+            let utangList = JSON.parse(localStorage.getItem('utangList')) || [];
+            daftarUtang.innerHTML = "";
+            utangList.forEach(utang => {
+                let utangItem = document.createElement('div');
+                utangItem.classList.add('utang-item');
+                utangItem.innerHTML = `<strong>${utang.nama}</strong> berutang Rp ${utang.jumlah}<br><em>${utang.deskripsi}</em>`;
+                daftarUtang.appendChild(utangItem);
+            });
+        }
+        tampilkanUtang();
+    </script>
+</body>
+</html>
